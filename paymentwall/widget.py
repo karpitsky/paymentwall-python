@@ -127,7 +127,7 @@ class Widget(Paymentwall):
 
 	@classmethod
 	def calculate_signature(self, params, secret, version):
-		base_string = u''
+		base_string = ''
 		is_array = lambda var: isinstance(var, (list, tuple))
 
 		if version == self.SIGNATURE_VERSION_1:
@@ -140,10 +140,22 @@ class Widget(Paymentwall):
 
 			for i in range(len(params)):
 				if is_array(params[i][1]):
-					for key in range(len(params[i][1])):
-						base_string += u'%s[%s]=%s' % (params[i][0], key, params[i][1][key])
+					for j in range(len(params[i][1])):
+						key = params[i][0]
+						value = params[i][1][j]
+						if isinstance(key, str):
+							key = key.decode('utf-8')
+						if isinstance(value, str):
+							value = value.decode('utf-8')
+						base_string += '%s[%s]=%s' % (key, j, value)
 				else:
-					base_string += u'%s=%s' % (params[i][0], params[i][1])
+					key = params[i][0]
+					value = params[i][1]
+					if isinstance(key, str):
+						key = key.decode('utf-8')
+					if isinstance(value, str):
+						value = value.decode('utf-8')
+					base_string += '%s=%s' % (key, value)
 
 			base_string += secret
 
