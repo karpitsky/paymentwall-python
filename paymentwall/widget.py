@@ -16,8 +16,13 @@ class Widget(Paymentwall):
 	def __init__(self, user_id, widget_code, products=[], extra_params={}):
 		self.user_id = user_id
 		self.widget_code = widget_code
-		self.extra_params = extra_params
+		self.extra_params = self.encode_extra_params(extra_params)
 		self.products = products
+
+	def encode_extra_params(self, extra_params):
+		for key in extra_params:
+			extra_params[key] = extra_params[key].encode('utf-8')
+		return extra_params
 
 	def get_default_widget_signature(self):
 		return self.DEFAULT_SIGNATURE_VERSION if self.get_api_type() != self.API_CART else self.SIGNATURE_VERSION_2
