@@ -157,7 +157,7 @@ class Pingback(Paymentwall):
 		return self.get_type() == self.PINGBACK_TYPE_NEGATIVE
 
 	def calculate_signature(self, params, secret, version):
-		base_string = ''
+		base_string = u''
 		is_array = lambda var: isinstance(var, (list, tuple))
 
 		params = params.copy()
@@ -171,9 +171,9 @@ class Pingback(Paymentwall):
 		for k in range(len(keys)):
 			if is_array(params[keys[k]]):
 				for i in range(len(params[keys[k]])):
-					base_string += str(keys[k]) + '[' + str(i) + ']=' + str(params[keys[k]][i])
+					base_string += u'%s[%s]=%s' % (keys[k], i, params[keys[k]][i])
 			else:
-				base_string += str(keys[k]) + '=' + str(params[keys[k]])
+				base_string += u'%s=%s' % (keys[k], params[keys[k]])
 
 		base_string += secret
 

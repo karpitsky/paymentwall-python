@@ -136,7 +136,7 @@ class Widget(Paymentwall):
 			for i in range(len(params)):
 				if is_array(params[i][1]):
 					for key in range(len(params[i][1])):
-						base_string += u'%s[%s]=%s' % (params[i][0], str(key), params[i][1][key])
+						base_string += u'%s[%s]=%s' % (params[i][0], key, params[i][1][key])
 				else:
 					base_string += u'%s=%s' % (params[i][0], params[i][1])
 
